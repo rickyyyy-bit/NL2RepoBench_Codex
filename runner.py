@@ -88,7 +88,7 @@ def evaluate_result(result: dict, test_data, enabled: bool) -> dict:
     evaluation_workspace = workspace.parent / "evaluation" / "workspace"
     try:
         # The evaluator has Docker dependencies that generation-only runs do not need.
-        from openhands.post_processor import post_process_task
+        from benchmark.evaluator import post_process_task
 
         shutil.copytree(workspace, evaluation_workspace, symlinks=True)
         evaluation = post_process_task(

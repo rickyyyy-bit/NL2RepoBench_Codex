@@ -9,9 +9,7 @@ from unittest.mock import patch
 import main
 import runner
 from codex_backend import runner as codex
-from deepseek import runner as deepseek
-from openhands import openhands_app
-from openhands.openhands_app import PROMPT
+from benchmark.prompt import PROMPT
 
 
 class CodexBackendTests(unittest.TestCase):
@@ -129,19 +127,17 @@ class CodexBackendTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             runner.evaluate_saved_submission(source, 'replay', self.task)
 
-    def test_all_backend_dispatch_routes(self):
+    def test_codex_is_the_default_and_only_generation_backend(self):
         config = self.root / 'config.json'
-        config.write_text(json.dumps({'backend': 'openhands'}))
-        for backend, module, name in [('codex', codex, 'start_codex'),
-                                      ('deepseek', deepseek, 'start_deepseek'),
-                                      ('openhands', openhands_app, 'start_openhands')]:
-            with patch('sys.argv', ['main.py', '--config', str(config), '--backend', backend]), \
+        config.write_text('{}')
+        for extra in ([], ['--backend', 'codex']):
+            with patch('sys.argv', ['main.py', '--config', str(config), *extra]), \
                  patch.object(main.os, 'chdir'), \
                  patch.object(main.test_data_service, 'read_all_test_data'), \
-                 patch.object(module, name, return_value=[]) as selected:
+                 patch.object(codex, 'start_codex', return_value=[]) as selected:
                 self.assertEqual(main.main(), 0)
                 selected.assert_called_once()
-        self.assertEqual(main.BACKENDS, ('openhands', 'deepseek', 'codex'))
+        self.assertEqual(main.BACKENDS, ('codex',))
 
     def test_saved_main_route_never_launches_generation(self):
         source = self.root / 'saved'

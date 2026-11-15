@@ -25,7 +25,7 @@ class ReplayLinkTests(unittest.TestCase):
     def replay(self, name='replay'):
         # Keep both real copy operations; substitute only the Docker grader.
         outcome = {'status': 'success', 'pytest_results': {'passed': 0, 'total': 0}}
-        with patch('openhands.post_processor.post_process_task', return_value=outcome):
+        with patch('benchmark.evaluator.post_process_task', return_value=outcome):
             result = runner.evaluate_saved_submission(self.source, name, self.task)
         self.assertEqual(result['evaluation_status'], 'completed')
         self.assertFalse(result['generation_performed'])

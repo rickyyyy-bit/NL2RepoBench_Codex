@@ -1,2 +1,2 @@
-# Keep the Bash entry point usable from Windows checkouts running under WSL.
-scripts/build_codex.sh text eol=lf
+# Keep protocol fingerprints and Bash scripts stable across checkout platforms.
+* text=auto eol=lf

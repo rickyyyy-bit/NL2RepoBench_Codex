@@ -4,25 +4,8 @@ __pycache__/
 .venv/
 .env
 .env.*
-config.deepseek.json
 config.codex.json
-.protocol-venv/
-.protocol-tools/
 workspaces/
 result/
 logs/
-
-# Local experiments and evidence are retained outside the integration release.
-.codex-test-deps-01/
-codex-builds/
-codex-diagnostics/
 codex-evidence/
-codex-real-runs/
-codex_integration/
-openhands_comparison/
-openhands_sol/
-config.codex.elm.json
-codex_backend/verify_saved.py
-CODEX_MANUAL.md
-CODEX_PROTOCOL_VALIDATION.md
-CODEX_SETTINGS_AUDIT.md
