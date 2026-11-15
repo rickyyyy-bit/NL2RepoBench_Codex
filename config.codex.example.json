@@ -1,0 +1,19 @@
+{
+  "backend": "codex",
+  "evaluate": true,
+  "max_pool_size": 1,
+  "codex": {
+    "image": "nl2repobench-codex:0.167.2",
+    "task_timeout_seconds": 7200
+  },
+  "startPro": [
+    {
+      "moduleName": "YOUR_MODEL_ID",
+      "protocol": "openai-responses",
+      "baseUrl": "",
+      "apiKeyEnv": "NL2REPO_API_KEY",
+      "reasoningEffort": "medium",
+      "proNameList": ["math-verify"]
+    }
+  ]
+}
