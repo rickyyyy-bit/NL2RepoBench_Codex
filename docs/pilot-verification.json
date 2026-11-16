@@ -1,0 +1,262 @@
+{
+  "experiment_dates": "2026-11-15 to 2026-11-16",
+  "scope": "Five fresh Codex attempts; this record is distinct from the earlier single-task live verification.",
+  "generation_repeated_for_recovery": false,
+  "archive_workaround_included_in_submission": false,
+  "source_snapshot_unchanged_during_pilot": true,
+  "output_budget_parity_verified": false,
+  "generation_timeout_seconds": 7200,
+  "source_reuse_note": "False means no confirmed target-project reuse in this review, not proof of absence.",
+  "records": [
+    {
+      "task": "jsonlines",
+      "run_id": "jsonlines-gpt-6-1-sol-126beab0f5da42c19eb7ac6fe5f9b722",
+      "generation_status": "completed",
+      "generation_exit_code": 0,
+      "model": {
+        "model": "gpt-6.1-sol",
+        "base_url": "https://elm.edina.ac.uk/api/v1",
+        "protocol": "openai-responses",
+        "reasoning_effort": "medium",
+        "context_window": 200000
+      },
+      "generation_image": {
+        "tag": "nl2repobench-codex:0.167.2",
+        "id": "sha256:f143d5dd1e2d858123664d8d809b8c279da750e73e3f9d9c484e761694111e90",
+        "codex_version": "codex-cli 0.167.2"
+      },
+      "evaluation_status": "completed",
+      "original_score": 26,
+      "original_counts": {
+        "passed": 26,
+        "failed": 1,
+        "errors": 0,
+        "total": 27,
+        "success_rate": 0.9629629629629629
+      },
+      "commands": [
+        {
+          "command": "pip install -e .",
+          "exit_code": 0
+        },
+        {
+          "command": "pytest --continue-on-collection-errors tests",
+          "exit_code": 1
+        }
+      ],
+      "result_sha256": "91df96db35fd5fd6cbc4884194890a6ac693a9aed11ad70a1735ad596808f5df",
+      "recovery": null,
+      "task_image": {
+        "tag": "ghcr.io/multimodal-art-projection/nl2repobench/jsonlines:1.0",
+        "id": "sha256:53d4f953222214651e979d00d81b8b10af86adec9a24982be0ce95e5ece2c246",
+        "manifest_digest": "sha256:53d4f953222214651e979d00d81b8b10af86adec9a24982be0ce95e5ece2c246",
+        "size": 485349440
+      },
+      "observed_target_source_reuse": false
+    },
+    {
+      "task": "parse",
+      "run_id": "parse-gpt-6-1-sol-cda4d7d96e6647beabecfd0819d6f18d",
+      "generation_status": "completed",
+      "generation_exit_code": 0,
+      "model": {
+        "model": "gpt-6.1-sol",
+        "base_url": "https://elm.edina.ac.uk/api/v1",
+        "protocol": "openai-responses",
+        "reasoning_effort": "medium",
+        "context_window": 200000
+      },
+      "generation_image": {
+        "tag": "nl2repobench-codex:0.167.2",
+        "id": "sha256:f143d5dd1e2d858123664d8d809b8c279da750e73e3f9d9c484e761694111e90",
+        "codex_version": "codex-cli 0.167.2"
+      },
+      "evaluation_status": "error",
+      "original_score": null,
+      "original_counts": null,
+      "commands": [],
+      "result_sha256": "05a7c50828fb8259bc936e06e65722f7c3d1bd768a689eb9f8db7c9861a83fd9",
+      "recovery": {
+        "run_id": "archive-recovery-8a0b1e85d2db475d9f2e1da90b96a7ec",
+        "score": 92,
+        "counts": {
+          "passed": 92,
+          "failed": 4,
+          "errors": 0,
+          "total": 96,
+          "success_rate": 0.9583333333333334
+        },
+        "generation_performed": false,
+        "original_source_unchanged": true,
+        "commands": [
+          {
+            "command": "pip install -e . & pip install -r tests/requirements.txt",
+            "exit_code": 1
+          },
+          {
+            "command": "pytest --continue-on-collection-errors",
+            "exit_code": 1
+          }
+        ],
+        "result_sha256": "21a5915a32b4d5b51732997a1d2e18f6cadfaf7071f4faeeca8615978b2a5c3e"
+      },
+      "task_image": {
+        "tag": "ghcr.io/multimodal-art-projection/nl2repobench/parse:1.0",
+        "id": "sha256:b62739aff75c836823bf0140ae6db4d329beb74cf79cdb170ed5adb85966ee18",
+        "manifest_digest": "sha256:b62739aff75c836823bf0140ae6db4d329beb74cf79cdb170ed5adb85966ee18",
+        "size": 55968812
+      },
+      "observed_target_source_reuse": true
+    },
+    {
+      "task": "math-verify",
+      "run_id": "math-verify-gpt-6-1-sol-43dec1863a0b430ab9935e47537afc38",
+      "generation_status": "completed",
+      "generation_exit_code": 0,
+      "model": {
+        "model": "gpt-6.1-sol",
+        "base_url": "https://elm.edina.ac.uk/api/v1",
+        "protocol": "openai-responses",
+        "reasoning_effort": "medium",
+        "context_window": 200000
+      },
+      "generation_image": {
+        "tag": "nl2repobench-codex:0.167.2",
+        "id": "sha256:f143d5dd1e2d858123664d8d809b8c279da750e73e3f9d9c484e761694111e90",
+        "codex_version": "codex-cli 0.167.2"
+      },
+      "evaluation_status": "error",
+      "original_score": null,
+      "original_counts": null,
+      "commands": [],
+      "result_sha256": "d9a38f7dacc55bd1271a6d43f26dedda21fe32b2f6319b5a33014ad29c2c3ed4",
+      "recovery": {
+        "run_id": "archive-recovery-5912ca851c524fbfa6bb3f565dd11628",
+        "score": 166,
+        "counts": {
+          "passed": 166,
+          "failed": 26,
+          "errors": 0,
+          "total": 192,
+          "success_rate": 0.8645833333333334
+        },
+        "generation_performed": false,
+        "original_source_unchanged": true,
+        "commands": [
+          {
+            "command": "pip install -e .",
+            "exit_code": 0
+          },
+          {
+            "command": "python -m pytest --continue-on-collection-errors -n 0 tests/test_all.py  -v -s",
+            "exit_code": 1
+          }
+        ],
+        "result_sha256": "682c05cb538d8430c2ee9a8d10f32ebbd192aad4c6788d87892a9de4b95861ef"
+      },
+      "task_image": {
+        "tag": "ghcr.io/multimodal-art-projection/nl2repobench/math-verify:1.0",
+        "id": "sha256:09eeca141f24aa13c6b33dae1c255f086b4916f41cbd8cb99ca0541d7c63ce02",
+        "manifest_digest": "sha256:09eeca141f24aa13c6b33dae1c255f086b4916f41cbd8cb99ca0541d7c63ce02",
+        "size": 510608633
+      },
+      "observed_target_source_reuse": false
+    },
+    {
+      "task": "structlog",
+      "run_id": "structlog-gpt-6-1-sol-12f870a25da2472eb03dfc7d540f0880",
+      "generation_status": "completed",
+      "generation_exit_code": 0,
+      "model": {
+        "model": "gpt-6.1-sol",
+        "base_url": "https://elm.edina.ac.uk/api/v1",
+        "protocol": "openai-responses",
+        "reasoning_effort": "medium",
+        "context_window": 200000
+      },
+      "generation_image": {
+        "tag": "nl2repobench-codex:0.167.2",
+        "id": "sha256:f143d5dd1e2d858123664d8d809b8c279da750e73e3f9d9c484e761694111e90",
+        "codex_version": "codex-cli 0.167.2"
+      },
+      "evaluation_status": "completed",
+      "original_score": 0,
+      "original_counts": {
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "total": 828,
+        "success_rate": 0.0
+      },
+      "commands": [
+        {
+          "command": "pip install -e .",
+          "exit_code": 0
+        },
+        {
+          "command": "pip install colorama",
+          "exit_code": 0
+        },
+        {
+          "command": "pytest --continue-on-collection-errors tests",
+          "exit_code": 4
+        }
+      ],
+      "result_sha256": "b22923faf3ae8c2de30eec596d1a157c2d0c12eaf0a8d5f07f9d1844f7e9eba3",
+      "recovery": null,
+      "task_image": {
+        "tag": "ghcr.io/multimodal-art-projection/nl2repobench/structlog:1.0",
+        "id": "sha256:ad5c6ff2b6ddd2a7f463b9e31dcd8c201e6f17092eb9c28cd77a4c62421d9d1b",
+        "manifest_digest": "sha256:ad5c6ff2b6ddd2a7f463b9e31dcd8c201e6f17092eb9c28cd77a4c62421d9d1b",
+        "size": 55411748
+      },
+      "observed_target_source_reuse": true
+    },
+    {
+      "task": "boltons",
+      "run_id": "boltons-gpt-6-1-sol-56b25e2eafdb4825b3218b50b6741a29",
+      "generation_status": "completed",
+      "generation_exit_code": 0,
+      "model": {
+        "model": "gpt-6.1-sol",
+        "base_url": "https://elm.edina.ac.uk/api/v1",
+        "protocol": "openai-responses",
+        "reasoning_effort": "medium",
+        "context_window": 200000
+      },
+      "generation_image": {
+        "tag": "nl2repobench-codex:0.167.2",
+        "id": "sha256:f143d5dd1e2d858123664d8d809b8c279da750e73e3f9d9c484e761694111e90",
+        "codex_version": "codex-cli 0.167.2"
+      },
+      "evaluation_status": "completed",
+      "original_score": 420,
+      "original_counts": {
+        "passed": 420,
+        "failed": 3,
+        "errors": 0,
+        "total": 423,
+        "success_rate": 0.9929078014184397
+      },
+      "commands": [
+        {
+          "command": "pip install -e .",
+          "exit_code": 0
+        },
+        {
+          "command": "pytest --continue-on-collection-errors tests",
+          "exit_code": 1
+        }
+      ],
+      "result_sha256": "3572019f7bbe17f24a1c026b0c81a53bff9b39b103f54db49325c6db975a035d",
+      "recovery": null,
+      "task_image": {
+        "tag": "ghcr.io/multimodal-art-projection/nl2repobench/boltons:1.0",
+        "id": "sha256:770deb94e716b3a1592900ab389ac628f7b2a41d360e55bdb633bbff4c948e52",
+        "manifest_digest": "sha256:770deb94e716b3a1592900ab389ac628f7b2a41d360e55bdb633bbff4c948e52",
+        "size": 405212828
+      },
+      "observed_target_source_reuse": true
+    }
+  ]
+}

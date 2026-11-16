@@ -29,8 +29,83 @@
     "passed": true
   },
   "host_environment": "Existing isolated Python environment; no fresh dependency installation",
-  "generation_performed": false,
-  "benchmark_grading_rerun": false,
-  "live_end_to_end_verified": false,
-  "output_budget_parity_verified": false
+  "generation_performed": true,
+  "live_end_to_end_verified": true,
+  "output_budget_parity_verified": false,
+  "offline_checks_performed_generation": false,
+  "live_run": {
+    "run_id": "math-verify-gpt-6-1-sol-e3541e385a574efeae1c7f165a515b43",
+    "task": "math-verify",
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "medium",
+    "context_window": 200000,
+    "started_at": "2026-11-15T09:57:21.455805+00:00",
+    "finished_at": "2026-11-15T10:08:00.64468+00:00",
+    "total_seconds": 639.189,
+    "generation_status": "completed",
+    "evaluation_status": "completed",
+    "generation_exit_code": 0,
+    "launcher_exit_code": 0,
+    "commands": [
+      {
+        "command": "pip install -e .",
+        "exit_code": 0
+      },
+      {
+        "command": "python -m pytest --continue-on-collection-errors -n 0 tests/test_all.py  -v -s",
+        "exit_code": 1
+      }
+    ],
+    "pytest_results": {
+      "passed": 168,
+      "failed": 24,
+      "errors": 0,
+      "total": 192,
+      "success_rate": 0.875
+    },
+    "original_task_commands_used": true,
+    "generation_image": {
+      "tag": "nl2repobench-codex:0.167.2",
+      "id": "sha256:f143d5dd1e2d858123664d8d809b8c279da750e73e3f9d9c484e761694111e90",
+      "codex_version": "codex-cli 0.167.2"
+    },
+    "test_image_id": "sha256:c31329fbe038724856a79161d2f35fd45f2020947bf8eacb01fc7a7d62e92b90",
+    "source_files_changed": [],
+    "import_and_cleanup": {
+      "origin": "/workspace/math_verify/__init__.py",
+      "sha256": "1213bf8ed16d67837fbcb4bb30c6d6071ee96152a2002da09f8b4e8c62ba6918",
+      "matches_generated_file": true,
+      "matches_evaluation_copy": true,
+      "containers_removed": {
+        "generation": true,
+        "evaluation": true
+      }
+    },
+    "host_environment": {
+      "python": "3.12.3",
+      "packages": {
+        "annotated-types": "0.8.0",
+        "pydantic": "2.14.3",
+        "pydantic_core": "2.50.4",
+        "python-on-whales": "0.81.0",
+        "typing-inspection": "0.4.5",
+        "typing_extensions": "4.16.0"
+      },
+      "images": {
+        "nl2repobench-codex:0.167.2": {
+          "id": "sha256:f143d5dd1e2d858123664d8d809b8c279da750e73e3f9d9c484e761694111e90",
+          "repo_digests": [
+            "nl2repobench-codex@sha256:f143d5dd1e2d858123664d8d809b8c279da750e73e3f9d9c484e761694111e90"
+          ]
+        },
+        "ghcr.io/multimodal-art-projection/nl2repobench/math-verify:1.0": {
+          "id": "sha256:09eeca141f24aa13c6b33dae1c255f086b4916f41cbd8cb99ca0541d7c63ce02",
+          "repo_digests": [
+            "ghcr.io/multimodal-art-projection/nl2repobench/math-verify@sha256:09eeca141f24aa13c6b33dae1c255f086b4916f41cbd8cb99ca0541d7c63ce02"
+          ]
+        }
+      }
+    },
+    "raw_results": "Stored separately from the publication source; identified by run_id."
+  }
 }

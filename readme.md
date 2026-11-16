@@ -4,6 +4,8 @@ A self-contained runner for NL2RepoBench tasks, with Codex generation and an age
 
 This is a complete repository, not a patch to another checkout. Use this directory as the GitHub repository root.
 
+This submission contains the Codex runner, shared grader, 104 task specifications, offline tests and documentation. Current verification and unresolved grading limitations are documented in [validation](docs/validation.md). In particular, a generated virtual environment can trigger an archive error, and fixed task dependencies can prevent tests from starting. This snapshot preserves the benchmark protocol; it does not include the separate pilot's grading workaround.
+
 ## Setup and run
 
 Use Linux or Ubuntu/WSL, Python 3.12, Docker and Docker Buildx. Native Windows Python execution is not supported. The task evaluation images are downloaded from the NL2RepoBench container registry; they are benchmark assets, not agent runtimes. Image builds and task installation commands may require network access.
