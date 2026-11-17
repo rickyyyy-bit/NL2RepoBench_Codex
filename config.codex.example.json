@@ -8,12 +8,26 @@
   },
   "startPro": [
     {
-      "moduleName": "YOUR_MODEL_ID",
+      "moduleName": "gpt-6.1-sol",
       "protocol": "openai-responses",
-      "baseUrl": "",
+      "baseUrl": "https://elm.edina.ac.uk/api/v1",
       "apiKeyEnv": "NL2REPO_API_KEY",
       "reasoningEffort": "medium",
-      "proNameList": ["math-verify"]
+      "proNameList": [
+        "jsonlines",
+        "jsonlines",
+        "jsonlines",
+        "parse",
+        "parse",
+        "parse",
+        "math-verify",
+        "math-verify",
+        "math-verify",
+        "boltons",
+        "boltons",
+        "boltons"
+      ],
+      "contextWindow": 200000
     }
   ]
 }

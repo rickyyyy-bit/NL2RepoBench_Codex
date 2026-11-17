@@ -1,0 +1,67 @@
+diff --git a/main.py b/main.py
+--- a/main.py
++++ b/main.py
+@@ -9,7 +9,7 @@
+ import test_data_service
+ 
+ logger = get_logger(__name__)
+-BACKENDS = ("openhands", "deepseek")
++BACKENDS = ("openhands", "deepseek", "codex")
+ 
+ 
+ def main() -> int:
+@@ -30,7 +30,10 @@
+     # Existing task metadata and evaluator paths are relative to the benchmark checkout.
+     os.chdir(Path(__file__).resolve().parent)
+     test_data_service.read_all_test_data()
+-    if backend == "deepseek":
++    if backend == "codex":
++        from codex_backend.runner import start_codex
++        results = start_codex(config)
++    elif backend == "deepseek":
+         from deepseek.runner import start_deepseek
+         results = start_deepseek(config)
+     else:
+diff --git a/openhands/post_processor.py b/openhands/post_processor.py
+--- a/openhands/post_processor.py
++++ b/openhands/post_processor.py
+@@ -5,6 +5,7 @@
+ import subprocess
+ import logging
+ import re
++import stat
+ from datetime import datetime
+ from typing import List, Dict, Any
+ from test_data_service import TestData
+@@ -91,7 +92,7 @@
+ 
+ def create_workspace_zip(workspace_path: str, logger) -> str:
+     """
+-    Create a zip file of the workspace folder.
++    Create a diagnostic ZIP, preserving symlinks without reading their targets.
+ 
+     Args:
+         workspace_path: workspace path
+@@ -107,10 +108,20 @@
+     try:
+         with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
+             for root, dirs, files in os.walk(workspace_path):
+-                for file in files:
++                # os.walk does not descend into directory links. Include those
++                # entries explicitly so the archive retains their link text too.
++                links = [name for name in dirs if os.path.islink(os.path.join(root, name))]
++                for file in files + links:
+                     file_path = os.path.join(root, file)
+                     arcname = os.path.relpath(file_path, workspace_path)
+-                    zipf.write(file_path, arcname)
++                    if os.path.islink(file_path):
++                        info = zipfile.ZipInfo(arcname.replace(os.sep, '/'))
++                        info.create_system = 3  # Unix mode bits identify a symlink.
++                        info.external_attr = (stat.S_IFLNK | stat.S_IMODE(os.lstat(file_path).st_mode)) << 16
++                        info.compress_type = zipfile.ZIP_DEFLATED
++                        zipf.writestr(info, os.fsencode(os.readlink(file_path)))
++                    else:
++                        zipf.write(file_path, arcname)
+ 
+         logger.info(f"Successfully created zip file: {zip_path}")
+         return zip_path

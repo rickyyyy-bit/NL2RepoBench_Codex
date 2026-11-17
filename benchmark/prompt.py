@@ -1,8 +1,0 @@
-"""Fixed task prompt; independent of any agent implementation."""
-
-PROMPT = (
-    "According to the start.md in the workspace, implement the entire project as per the "
-    "requirements specified in the document, ensuring that the final product can be directly "
-    "run in the current directory. The running requirements should comply with the <API Usage "
-    "Guide> section of the document. Please complete this task step by step."
-)

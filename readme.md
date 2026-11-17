@@ -1,60 +1,41 @@
-# NL2RepoBench — standalone Codex runner
+# NL2RepoBench Codex integration
 
-A self-contained runner for NL2RepoBench tasks, with Codex generation and an agent-independent evaluator. All required benchmark Python modules and task metadata are included. No other agent package, repository checkout, or service is required.
+This package adds the Codex backend to the pinned reference revision of [Dalongbao's NL2RepoBench fork](https://github.com/dalongbao/NL2RepoBench). See the [results report](NL2RepoBench_Codex_Results.md) for the 12 trial scores and efficiency metrics and [What I did well](ENGINEERING_EVIDENCE.md) for the engineering checks.
 
-This is a complete repository, not a patch to another checkout. Use this directory as the GitHub repository root.
+## Install
 
-This submission contains the Codex runner, shared grader, 104 task specifications, offline tests and documentation. Current verification and unresolved grading limitations are documented in [validation](docs/validation.md). In particular, a generated virtual environment can trigger an archive error, and fixed task dependencies can prevent tests from starting. This snapshot preserves the benchmark protocol; it does not include the separate pilot's grading workaround.
+Use Linux or Ubuntu on WSL with Python 3.12, Git, Docker with Buildx, and an ELM API key. The Docker daemon needs access to the benchmark task images, and the generation container needs to reach ELM.
 
-## Setup and run
-
-Use Linux or Ubuntu/WSL, Python 3.12, Docker and Docker Buildx. Native Windows Python execution is not supported. The task evaluation images are downloaded from the NL2RepoBench container registry; they are benchmark assets, not agent runtimes. Image builds and task installation commands may require network access.
+Run these commands from the directory containing this README after extracting the ZIP.
 
 ```bash
-python3 -m venv .venv
+package_dir="$PWD"
+git clone --config core.autocrlf=false https://github.com/dalongbao/NL2RepoBench.git nl2repobench-review
+cd nl2repobench-review
+git switch --detach bbd664bdb093351f78b3b2670da9ee53745b27ee
+git apply --check "$package_dir/codex-integration.patch"
+git apply "$package_dir/codex-integration.patch"
+cp -R "$package_dir/codex_backend" .
+cp "$package_dir/docker/codex.Dockerfile" docker/
+cp "$package_dir/scripts/build_codex.sh" scripts/
+cp "$package_dir/config.codex.example.json" config.codex.json
+
+python3.12 -m venv .venv
 . .venv/bin/activate
 python -m pip install -r requirements.txt
-docker info
-docker buildx version
 bash scripts/build_codex.sh
-cp config.codex.example.json config.codex.json
 ```
 
-Edit `config.codex.json` with the model ID, API base URL and task names. Supply a Responses-compatible provider and model supporting your configured reasoning effort.
+## Run
+
+The supplied configuration runs all 12 trials sequentially. For a single test, set the `proNameList` in `config.codex.json` to `["jsonlines"]` before running.
 
 ```bash
-read -r -s -p 'Provider API key: ' NL2REPO_API_KEY
+read -r -s -p 'ELM API key: ' NL2REPO_API_KEY
 printf '\n'
 export NL2REPO_API_KEY
 python main.py --config config.codex.json
 unset NL2REPO_API_KEY
 ```
 
-This performs generation and grading. Add `--skip-evaluation` for generation only. Each task has a separate workspace and temporary agent home. API keys are passed by environment-variable name and known key values are redacted from retained CLI logs.
-
-## Evaluate saved code from any agent
-
-Select exactly one model/task in the configuration, then run:
-
-```bash
-python main.py --config config.codex.json \
-  --saved-submission /absolute/path/to/repository \
-  --submission-agent agent-under-study
-```
-
-Replay requires no API key or generation image and imports no agent adapter. It copies the saved code before grading; original files remain unchanged. The agent label and configured model are reported provenance, not independently verified generation settings. An omitted agent label becomes `external`. Replay always evaluates and cannot be combined with `--skip-evaluation`.
-
-## Repository structure
-
-| Path | Purpose |
-|---|---|
-| `benchmark/` | Agent-independent evaluator, Docker helpers and fixed task prompt |
-| `codex_backend/` | Codex generation, container lifecycle and diagnostics |
-| `runner.py`, `main.py` | Scheduling, result recording, generation and replay entry points |
-| `test_files/` | Bundled benchmark instructions, commands and test metadata |
-| `docker/`, `scripts/` | Generation image and build command |
-| `tests/` | Offline regression tests and optional request probe |
-
-Results are written to `result/`; generated and evaluated copies are under separate directories in `workspaces/`. A completed run means its pipeline completed, not that all tests passed. Inspect installation exit codes and evaluation diagnostics alongside the passed-test count.
-
-See [configuration and manual testing](docs/codex.md), [experiment protocol and limitations](docs/experiment-protocol.md), and [verification](docs/validation.md). Benchmark provenance and file fingerprints are recorded in [the protocol manifest](docs/protocol-manifest.json).
+The runner writes one JSON file per trial in `result/`, including the test score, generation duration and recorded token counts. Generated code and grading diagnostics are in `workspaces/`. Test scores count passed tests, so a completed run can include individual test failures.

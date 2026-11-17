@@ -1,4 +1,4 @@
-"""Codex generation adapter using the agent-independent benchmark evaluator."""
+"""Change the generation agent; retain the fork's scheduler and evaluator."""
 import json
 import os
 from functools import partial
@@ -9,10 +9,10 @@ import subprocess
 import tempfile
 from urllib.parse import urlparse
 
-from benchmark.docker_cli import docker_command
+from docker_self.batch_container import docker_command
 from .containers import run_container
 from .events import redact_bytes, summarize_events
-from benchmark.prompt import PROMPT
+from openhands.openhands_app import PROMPT
 from runner import Job, evaluate_result, evaluation_enabled, model_tasks, new_run_id, positive_int, run_batch, write_json
 
 DEFAULT_IMAGE = 'nl2repobench-codex:0.167.2'
@@ -94,7 +94,7 @@ def _run_task(run_id, test_data, model, secret, timeout, image, evaluate):
                    'prompt': PROMPT, 'timeout_seconds': timeout,
                    'command': [v.replace(temporary, '<temporary-home>') for v in args],
                    'completion_policy': COMPLETION_POLICY,
-                   'evaluation_protocol': 'runner.evaluate_result -> benchmark.evaluator.post_process_task'})
+                   'evaluation_protocol': 'runner.evaluate_result -> openhands.post_processor.post_process_task'})
         result = run_container(args, 'codex-' + run_id, run_dir, timeout,
                                env={**os.environ, 'NL2REPO_MODEL_API_KEY': secret})
     for name in ['stdout.jsonl', 'stderr.log', 'container.log']:
@@ -113,8 +113,8 @@ def _run_task(run_id, test_data, model, secret, timeout, image, evaluate):
                 continue
     result.update(task_uuid=run_id, workspace_path=str(workspace), image=image, model=model,
                   generation_performed=True, turn_completed=finished, completion_policy=COMPLETION_POLICY)
-    # Successful process completion and cleanup determine grading eligibility.
-    # CLI event summaries remain diagnostics and do not independently veto grading.
+    # Match the existing DeepSeek/OpenHands eligibility rule. CLI events remain
+    # diagnostics, just as DeepSeek's team checks do; they do not veto grading.
     result['status'] = 'completed' if result['generation_status'] == 'completed' else 'failed'
     if result.get('cleanup_error'):
         result['status'] = 'failed'
