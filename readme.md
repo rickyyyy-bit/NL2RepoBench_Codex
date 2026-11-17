@@ -1,26 +1,13 @@
-# Run the Codex integration
+# NL2RepoBench with Codex
 
-For a short overview and the engineering evidence, see [SUBMISSION.md](SUBMISSION.md).
+This integration adds Codex as a backend for [NL2RepoBench](https://github.com/multimodal-art-projection/NL2RepoBench/tree/781a1da1ee41fb8edb0bed22f586d69111610edf). Use Linux or Ubuntu on WSL, Python 3.12, Docker with Buildx, and an ELM API key.
 
-## Install
+## Set up
 
-Use Linux or Ubuntu on WSL with Python 3.12, Git, Docker with Buildx, and an ELM API key. The Docker daemon needs access to the benchmark task images, and the generation container needs to reach ELM.
-
-From the directory containing this README, apply the integration to a fresh checkout of [Dalongbao’s NL2RepoBench fork](https://github.com/dalongbao/NL2RepoBench).
+From the extracted project directory, run:
 
 ```bash
-package_dir="$PWD"
-git clone --config core.autocrlf=false https://github.com/dalongbao/NL2RepoBench.git nl2repobench-review
-cd nl2repobench-review
-git switch --detach bbd664bdb093351f78b3b2670da9ee53745b27ee
-git apply --check "$package_dir/codex-integration.patch"
-git apply "$package_dir/codex-integration.patch"
-cp -R "$package_dir/codex_backend" .
-cp "$package_dir/docker/codex.Dockerfile" docker/
-cp "$package_dir/scripts/build_codex.sh" scripts/
-cp "$package_dir/config.codex.example.json" config.codex.json
-
-python3.12 -m venv .venv
+python3 -m venv .venv
 . .venv/bin/activate
 python -m pip install -r requirements.txt
 bash scripts/build_codex.sh
@@ -28,14 +15,15 @@ bash scripts/build_codex.sh
 
 ## Run
 
-The supplied configuration runs `jsonlines`. To run another task, change `proNameList` in `config.codex.json`.
-
 ```bash
 read -r -s -p 'ELM API key: ' NL2REPO_API_KEY
 printf '\n'
 export NL2REPO_API_KEY
-python main.py --config config.codex.json
-unset NL2REPO_API_KEY
+python main.py
 ```
 
-The runner writes one JSON file per run in `result/`, including the test score, generation duration and recorded token counts. Generated code and grading diagnostics are in `workspaces/`. Test scores count passed tests, so a completed run can include individual test failures.
+`main.py` reads `config.json`. The supplied configuration runs Codex on `jsonlines`. Change `startPro[0].proNameList` to run other tasks from `test_files/`. Results go to `result/`, and generated code and grading diagnostics go to `workspaces/`. The score is the number of tests passed.
+
+To use an existing OpenHands configuration, run `python main.py --config path/to/openhands.json`. Configurations without a `backend` field use OpenHands.
+
+See [SUBMISSION.md](SUBMISSION.md) for the overview, engineering evidence, and reported results.

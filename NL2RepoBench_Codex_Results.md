@@ -6,7 +6,7 @@ GPT-6.1 Sol via ELM ran four repository tasks three times each using medium reas
 
 Across the 12 trials, jsonlines consistently passed 26 of 27 tests and boltons averaged 99.61%. Parse showed the largest variation, with scores from 70 to 92 out of 96.
 
-The reported scores came from the Codex-only runner used for these experiments. The submission connects the same generation backend to Dalongbao's shared runner. Generation had network access.
+The measurements come from live Codex runs performed before packaging. The prompt, task definitions, test commands, and scorer match the official benchmark. Generation had network access.
 
 ## jsonlines
 

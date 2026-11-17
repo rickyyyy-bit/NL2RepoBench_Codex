@@ -1,7 +1,6 @@
-"""Owned-container variant of the fork's batch helper.
+"""Manage only containers owned by this invocation.
 
-The original helper force-removes by name even when create fails. This adapter
-uses an exclusive Docker cidfile and only removes the ID created by this call.
+An exclusive Docker cidfile identifies the container created by this call.
 Logs are retained in the task run directory and redacted by the runner.
 """
 import json
@@ -11,7 +10,8 @@ import subprocess
 import time
 import uuid
 
-from docker_self.batch_container import docker_command
+def docker_command(args, **kwargs):
+    return subprocess.run(["docker", *args], check=True, text=True, **kwargs)
 
 
 def run_container(create_args, name, directory, timeout_seconds, env=None):
