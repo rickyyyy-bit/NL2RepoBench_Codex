@@ -14,18 +14,7 @@
       "apiKeyEnv": "NL2REPO_API_KEY",
       "reasoningEffort": "medium",
       "proNameList": [
-        "jsonlines",
-        "jsonlines",
-        "jsonlines",
-        "parse",
-        "parse",
-        "parse",
-        "math-verify",
-        "math-verify",
-        "math-verify",
-        "boltons",
-        "boltons",
-        "boltons"
+        "jsonlines"
       ],
       "contextWindow": 200000
     }

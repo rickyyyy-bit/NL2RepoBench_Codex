@@ -1,12 +1,12 @@
-# NL2RepoBench Codex integration
+# Run the Codex integration
 
-This package adds the Codex backend to the pinned reference revision of [Dalongbao's NL2RepoBench fork](https://github.com/dalongbao/NL2RepoBench). See the [results report](NL2RepoBench_Codex_Results.md) for the 12 trial scores and efficiency metrics and [What I did well](ENGINEERING_EVIDENCE.md) for the engineering checks.
+For a short overview and the engineering evidence, see [SUBMISSION.md](SUBMISSION.md).
 
 ## Install
 
 Use Linux or Ubuntu on WSL with Python 3.12, Git, Docker with Buildx, and an ELM API key. The Docker daemon needs access to the benchmark task images, and the generation container needs to reach ELM.
 
-Run these commands from the directory containing this README after extracting the ZIP.
+From the directory containing this README, apply the integration to a fresh checkout of [Dalongbao’s NL2RepoBench fork](https://github.com/dalongbao/NL2RepoBench).
 
 ```bash
 package_dir="$PWD"
@@ -28,7 +28,7 @@ bash scripts/build_codex.sh
 
 ## Run
 
-The supplied configuration runs all 12 trials sequentially. For a single test, set the `proNameList` in `config.codex.json` to `["jsonlines"]` before running.
+The supplied configuration runs `jsonlines`. To run another task, change `proNameList` in `config.codex.json`.
 
 ```bash
 read -r -s -p 'ELM API key: ' NL2REPO_API_KEY
@@ -38,4 +38,4 @@ python main.py --config config.codex.json
 unset NL2REPO_API_KEY
 ```
 
-The runner writes one JSON file per trial in `result/`, including the test score, generation duration and recorded token counts. Generated code and grading diagnostics are in `workspaces/`. Test scores count passed tests, so a completed run can include individual test failures.
+The runner writes one JSON file per run in `result/`, including the test score, generation duration and recorded token counts. Generated code and grading diagnostics are in `workspaces/`. Test scores count passed tests, so a completed run can include individual test failures.

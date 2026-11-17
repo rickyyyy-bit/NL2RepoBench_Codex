@@ -1,0 +1,36 @@
+{
+  "package": "NL2RepoBench_Codex_Standalone",
+  "offline_tests_passed": 25,
+  "test_location": "Separate copy of this standalone package",
+  "all_agent_imports_blocked_during_replay_test": true,
+  "complete_launcher_to_evaluator_test": "passed with simulated generation/container outcomes",
+  "evaluator_behavior": "unchanged; only Docker-helper import relocated",
+  "task_files_preserved": 417,
+  "source_files_match_tested_copy": 444,
+  "post_test_changes": "Documentation and LF checkout attributes only",
+  "build_script_syntax": "passed",
+  "launcher_help": "passed",
+  "docker_replay_check": {
+    "synthetic_fixture_only": true,
+    "model_generation_performed": false,
+    "external_model_calls": 0,
+    "benchmark_grading_rerun": false,
+    "both_copies_readable_without_original_location": true,
+    "original_dockerfile_builder_used": true,
+    "container_reads": {
+      "pkg/value.py": true,
+      "absolute.py": true,
+      "relative.py": true,
+      "chain.py": true,
+      "alias/value.py": true
+    },
+    "source_file_bytes_and_link_text_unchanged": true,
+    "temporary_image_tag_removed": true,
+    "passed": true
+  },
+  "host_environment": "Existing isolated Python environment; no fresh dependency installation",
+  "generation_performed": false,
+  "benchmark_grading_rerun": false,
+  "live_end_to_end_verified": false,
+  "output_budget_parity_verified": false
+}
